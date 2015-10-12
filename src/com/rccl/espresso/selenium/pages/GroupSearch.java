@@ -5,8 +5,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class GroupSearch extends AbstractPage {
 
@@ -103,6 +101,10 @@ public class GroupSearch extends AbstractPage {
 		this.setSelectBox(SHIP_SELECTBOX, index);
 	}
 	
+	public void setShip(String shipName) {
+		this.setSelectBox(SHIP_SELECTBOX, shipName);
+	}
+	
 	private void clickDatePickerImg() {
 		WebElement datePickerParent = getParent(SAILING_DATE);
 		WebElement datePickerImg = datePickerParent.findElement(By.tagName("img"));
@@ -112,12 +114,11 @@ public class GroupSearch extends AbstractPage {
 	private List<WebElement> getDates() {
 		clickDatePickerImg();
 		WebElement datePicker = driver.findElement(By.id("ui-datepicker-div"));
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOf(datePicker));
+		waitUntil(datePicker);
 		return datePicker.findElements(By.tagName("td"));
 	}
 	
-	public void selectAvailableDate() {
+	public String getFirstAvailableDate() {
 		List<WebElement> dates = getDates();
 		for(WebElement date:dates) {
 			String classes = date.getAttribute("class");
@@ -127,16 +128,22 @@ public class GroupSearch extends AbstractPage {
 				break;
 			}
 		}
+		return driver.findElement(SAILING_DATE).getAttribute("value");
 	}
 	
-	public void selectUnavailableDate() {
+	public String getFirstUnavailableDate() {
 		List<WebElement> dates = getDates();
 		for(WebElement date:dates) {
 			String classes = date.getAttribute("class");
-			if(classes.contains("unavailable")) {
+			if(classes.contains("unavailable") && !classes.contains("ui-datepicker-today")) {
 				performClickBuild(date);
 				break;
 			}
 		}
+		return driver.findElement(SAILING_DATE).getAttribute("value");
+	}
+	
+	public void setSailingDate(String sailingDate) {
+		setInputBoxValue(SAILING_DATE, sailingDate);
 	}
 }

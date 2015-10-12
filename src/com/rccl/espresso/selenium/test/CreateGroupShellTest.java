@@ -9,7 +9,13 @@ import com.rccl.espresso.selenium.pages.GroupSearch.GroupType;
 import com.rccl.espresso.selenium.pages.GroupSearch.PolicyType;
 
 public class CreateGroupShellTest extends AbstractTestClass {
-
+	
+	private String groupName;
+	private String policyType;
+	private String brand;
+	private String ship;
+	private String sailingDate;
+	
 	@Test(priority = 0)
 	public void testTransitionToCreateGroupShell() {
 		DashboardPage dashboard = new DashboardPage(driver);
@@ -30,9 +36,9 @@ public class CreateGroupShellTest extends AbstractTestClass {
 		groupSearch.setPolicyType(PolicyType.NO_DEPOSIT);
 		groupSearch.setGroupName(GroupType.ASSOCIATION);
 		groupSearch.setBrand(Brand.AZAMARA);
-		groupSearch.setShip(2);
+		groupSearch.setShip("AZAMARA JOURNEY");
 		
-		groupSearch.selectAvailableDate();
+		String sailingDate = groupSearch.getFirstAvailableDate();
 		groupSearch.search();
 	}
 

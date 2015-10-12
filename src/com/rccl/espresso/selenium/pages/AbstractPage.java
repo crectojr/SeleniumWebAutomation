@@ -143,11 +143,15 @@ public abstract class AbstractPage {
 		WebElement label = parent.findElement(By.tagName("label"));
 		return label;
 	}
-
+	
 	protected void performClickBuild(WebElement label) {
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOf(label));
+		waitUntil(label);
 		action.moveToElement(label).click().build().perform();
+	}
+
+	public void waitUntil(WebElement webElement) {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOf(webElement));
 	}
 	
 	public WebElement getParent(By query) {
