@@ -2,5 +2,4 @@
 bin
 target
 test-output
-.classpath
-.project
+test/*
