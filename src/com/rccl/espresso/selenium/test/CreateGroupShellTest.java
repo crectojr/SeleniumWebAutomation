@@ -2,6 +2,7 @@ package com.rccl.espresso.selenium.test;
 
 import org.testng.annotations.Test;
 
+import com.rccl.espresso.selenium.pages.Categories;
 import com.rccl.espresso.selenium.pages.DashboardPage;
 import com.rccl.espresso.selenium.pages.GroupSearch;
 import com.rccl.espresso.selenium.pages.GroupSearch.Brand;
@@ -41,5 +42,14 @@ public class CreateGroupShellTest extends AbstractTestClass {
 		String sailingDate = groupSearch.getFirstAvailableDate();
 		groupSearch.search();
 	}
+	@Test(priority = 2)
+	public void testCategoriesPage(){
+		Categories categories = new Categories(driver,"Categories");
+
+		categories.setAvailableCategories();
+		categories.addCategories();
+		categories.proceedToGroupDetails();
+	}
+	
 
 }
